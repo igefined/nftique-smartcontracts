@@ -1,16 +1,16 @@
 name: test
 
-on: workflow_dispatch
-
-env:
-  FOUNDRY_PROFILE: ci
+on:
+  push:
+    branches:
+      - '*'
 
 jobs:
   check:
     strategy:
       fail-fast: true
 
-    name: Foundry project
+    name: Nftique-smartcontracts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
