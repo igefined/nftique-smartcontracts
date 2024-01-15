@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {BoutiqueNFT} from "./BoutiqueNFT.sol";
 
-event NFTAdded(uint indexed tokenId, uint price, address seller);
+    event NFTAdded(uint indexed tokenId, uint price, address seller);
 
 contract BoutiqueNFTMarketplace {
     BoutiqueNFT nft;
@@ -11,6 +11,8 @@ contract BoutiqueNFTMarketplace {
 
     mapping(uint tokenId => uint price) public items;
     mapping(uint tokenId => address owner) public owners;
+
+    mapping(address participant => uint256 createdAt) private participants;
 
     uint public constant FEE = 1;
 
@@ -33,7 +35,7 @@ contract BoutiqueNFTMarketplace {
 
         items[_tokenId] = _price;
         owners[_tokenId] = currentOwner;
-        
+
         emit NFTAdded(_tokenId, _price, currentOwner);
     }
 
@@ -51,13 +53,23 @@ contract BoutiqueNFTMarketplace {
         delete items[_tokenId];
         delete owners[_tokenId];
 
-        (bool ok,) = currentOwner.call{value: (price - (price * FEE)/100)}("");
+        (bool ok,) = currentOwner.call{value: (price - (price * FEE) / 100)}("");
         require(ok);
     }
 
     function withdrawal(address payable _to) external {
         require(msg.sender == owner, "not an owner");
 
-       _to.transfer(address(this).balance);
+        _to.transfer(address(this).balance);
+    }
+
+    function join() public {
+        address newParticipant = msg.sender;
+        require(
+            participants[newParticipant] == 0,
+            "BoutiqueNFTMarketplace: participant already exists"
+        );
+
+        participants[newParticipant] = block.timestamp;
     }
 }
