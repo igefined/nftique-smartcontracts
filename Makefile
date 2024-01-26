@@ -23,9 +23,10 @@ solc:
 
 @PHONY: abigen
 abigen: solc
-	@abigen --bin=./build/BoutiqueNFT.bin --abi=./build/BoutiqueNFT.abi --pkg=main --out=./build/BoutiqueNFT.go -v
-	@abigen --bin=./build/BoutiqueNFTMarketplace.bin --abi=./build/BoutiqueNFTMarketplace.abi --pkg=main --out=./build/BoutiqueNFTMarketplace.go -v
+	mkdir -p abi/
+	@abigen --bin=./build/BoutiqueNFT.bin --abi=./build/BoutiqueNFT.abi --pkg=abi --out=./abi/BoutiqueNFT.go
+	@abigen --bin=./build/BoutiqueNFTMarketplace.bin --abi=./build/BoutiqueNFTMarketplace.abi --pkg=abi --out=./abi/BoutiqueNFTMarketplace.go
 
 @PHONY: create-release-archive
 create-release-archive:
-	@zip release-$(TAG).zip ./build/*
+	@zip release-$(TAG).zip ./abi/*
