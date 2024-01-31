@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import {BoutiqueNFT} from "./BoutiqueNFT.sol";
 
-    event NFTAdded(uint indexed tokenId, uint price, address seller);
+event NFTAdded(uint indexed tokenId, uint price, address seller);
 
 contract BoutiqueNFTMarketplace {
     BoutiqueNFT nft;
