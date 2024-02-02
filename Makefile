@@ -1,3 +1,8 @@
+ifneq (,$(wildcard .env))
+	include .env
+	export
+endif
+
 @PHONY: build
 build:
 	@forge build
